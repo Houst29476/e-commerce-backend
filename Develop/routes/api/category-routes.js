@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// ----- findOne Category by `id` value & associated Products ------ //
+// ----- findOne Category by `ID` value & associated Products ------ //
 router.get("/:id", (req, res) => {
   Category.findOne({
     where: {
