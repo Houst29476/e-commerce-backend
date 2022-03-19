@@ -3,8 +3,9 @@ const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
 
+// ----- findAll Categories & associated Products ----- //
 router.get("/", (req, res) => {
-  // find all categories
+  
   Category.findAll({
     include: {
       model: Product,
@@ -16,9 +17,9 @@ router.get("/", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // be sure to include its associated Products
 });
 
+// ----- findOne Category by `id` value & associated Products ------ //
 router.get("/:id", (req, res) => {
   Category.findOne({
     where: {
@@ -34,10 +35,9 @@ router.get("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // find one category by its `id` value
-  // be sure to include its associated Products
 });
 
+// ----- Create a New Category ----- //
 router.post("/", (req, res) => {
   Category.create({
     category_name: req.body.category_name,
@@ -47,9 +47,9 @@ router.post("/", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // create a new category
 });
 
+// ----- Update a Category by its `ID` value ----- //
 router.put("/:id", (req, res) => {
   Category.update(
     {
@@ -72,9 +72,9 @@ router.put("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // update a category by its `id` value
 });
 
+// ------ Delete a Category by its `ID` value ------ //
 router.delete("/:id", (req, res) => {
   Category.destroy({
     where: {
@@ -92,7 +92,6 @@ router.delete("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // delete a category by its `id` value
-});
+ });
 
 module.exports = router;

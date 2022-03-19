@@ -3,6 +3,7 @@ const { Tag, Product, ProductTag } = require("../../models");
 
 // The `/api/tags` endpoint
 
+// ----- findAll Tags & associated Product data ----- //
 router.get("/", (req, res) => {
   Tag.findAll({
     include: {
@@ -14,10 +15,9 @@ router.get("/", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // find all tags
-  // be sure to include its associated Product data
 });
 
+// ----- find a single Tag by `ID` & associated Products ------ //
 router.get("/:id", (req, res) => {
   Tag.findOne({
     where: {
@@ -32,10 +32,9 @@ router.get("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
 });
 
+// ----- Create a New Tag ----- //
 router.post("/", (req, res) => {
   Tag.create({
     tag_name: req.body.tag_name,
@@ -45,9 +44,9 @@ router.post("/", (req, res) => {
       console.log(err);
       req.status(500).json(err);
     });
-  // create a new tag
 });
 
+// ----- Update a Tags name by its `ID` value ----- //
 router.put("/:id", (req, res) => {
   Tag.update(
     {
@@ -70,9 +69,9 @@ router.put("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // update a tag's name by its `id` value
 });
 
+// ------ Delete a Tag by its `ID` value ------ //
 router.delete("/:id", (req, res) => {
   Tag.destroy({
     where: {
@@ -90,7 +89,6 @@ router.delete("/:id", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // delete on tag by its `id` value
 });
 
 module.exports = router;
