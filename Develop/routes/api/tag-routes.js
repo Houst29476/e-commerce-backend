@@ -4,7 +4,7 @@ const { Tag, Product, ProductTag } = require("../../models");
 // The `/api/tags` endpoint
 
 // ----- findAll Tags & associated Product data ----- //
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   Tag.findAll({
     include: {
       model: Product,
@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 // ----- find a single Tag by `ID` & associated Products ------ //
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   Tag.findOne({
     where: {
       id: req.params.id,
@@ -47,7 +47,7 @@ router.post("/", (req, res) => {
 });
 
 // ----- Update a Tags name by its `ID` value ----- //
-router.put("/:id", (req, res) => {
+router.put('/:id', (req, res) => {
   Tag.update(
     {
       tag_name: req.body.tag_name,
@@ -60,7 +60,7 @@ router.put("/:id", (req, res) => {
   )
     .then((tagData) => {
       if (!tagData) {
-        res.status(404).json({ message: "No Tag found with that ID" });
+        res.status(404).json({ message: 'No Tag found with that ID' });
         return;
       }
       res.json(tagData);
@@ -72,7 +72,7 @@ router.put("/:id", (req, res) => {
 });
 
 // ------ Delete a Tag by its `ID` value ------ //
-router.delete("/:id", (req, res) => {
+router.delete('/:id', (req, res) => {
   Tag.destroy({
     where: {
       id: req.params.id,
@@ -80,7 +80,7 @@ router.delete("/:id", (req, res) => {
   })
     .then((tagData) => {
       if (!tagData) {
-        res.status(404).json({ message: "No Tag found by that ID." });
+        res.status(404).json({ message: 'No Tag found by that ID.' });
         return;
       }
       res.json(tagData);
