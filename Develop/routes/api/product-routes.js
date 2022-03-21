@@ -4,57 +4,64 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // ------ Get All products & associated Category & Tag data ------ //
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
-  Product.findAll(
-    {
-      include: [
-        {
-          model: Category,
-          attributes: ['category_name']
-        },
-        {
-          model: Tag,
-          attributes: ['tag_name']
-        }
-      ]
-    }
-  )
-    .then(productData => res.json(productData))
-    .catch(err => {
+  Product.findAll({
+    attributes: ["id", "product_name", "price", "stock", "category_id"],
+    include: [
+      {
+        model: Category,
+        attribute: ["id", "category_id"],
+      },
+      {
+        model: Tag,
+        attribute: ["id", "tag_name"],
+      },
+    ],
+  })
+    .then((dbProductData) => res.json(dbProductData))
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-// ------ Get single product by `ID` & associated Category & Tag data ------ //
-router.get('/:id', (req, res) => {
+// get one product
+router.get("/:id", (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   Product.findOne({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
-    include: [{
-      model: Category,
-      attributes: ['category_name']
-    },
-    {
-      model: Tag,
-      attributes: ['tag_name']
-    }
-    ]
+    
+    include: [
+     Category,
+     {
+       model: Tag,
+       through: ProductTag
+     }
+    ],
   })
-    .then(productData => res.json(productData))
-    .catch(err => {
+    .then((dbProductData) => res.json(dbProductData))
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
 // ------ Create a New product ------ //
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
+  /* req.body should look like this...
+    {
+      product_name: "Basketball",
+      price: 200.00,
+      stock: 3,
+      tagIds: [1, 2, 3, 4]
+    }
+  */
+
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
